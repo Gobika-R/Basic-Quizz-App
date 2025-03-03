@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Quiz</title>
+    <style>
+        body {
+            background-color: #fce4ec;  /* Light pink background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #ec407a;  /* Pink accent color */
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(236, 64, 122, 0.1);
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff5f8;
+            transition: transform 0.2s;
+        }
+        .question:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .question label {
+            font-weight: 600;
+            font-size: 18px;
+            color: #d81b60;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #ec407a;
+        }
+        .options label {
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background-color: white;
+            border: 2px solid #ffcdd2;
+            transition: all 0.3s ease;
+        }
+        .options label:hover {
+            background-color: #fce4ec;
+            border-color: #ec407a;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffcdd2;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ec407a;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #ec407a;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .submit-btn:hover {
+            background-color: #d81b60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 64, 122, 0.2);
+        }
+        .result {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 24px;
+            color: #ec407a;
+            padding: 20px;
+            background-color: #fff5f8;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Development Quiz</h1>
+    <div class="container">
+        <form id="quiz-form">
+            <div class="question">
+                <label>1. What does HTML stand for?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q1" value="1">
+                        Hyper Text Markup Language
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="0">
+                        Hyper Transfer Markup Language
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="0">
+                        High Text Machine Language
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="0">
+                        Hyperlink Text Management Language
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>2. What does CSS stand for?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q2" value="1">
+                        Cascading Style Sheets
+                    </label>
+                    <label>
+                        <input type="radio" name="q2" value="0">
+                        Computer Style Sheets
+                    </label>
+                    <label>
+                        <input type="radio" name="q2" value="0">
+                        Creative Style System
+                    </label>
+                    <label>
+                        <input type="radio" name="q2" value="0">
+                        Color Style Sheets
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>3. What does the acronym "API" stand for?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q3" value="1">
+                        Application Programming Interface
+                    </label>
+                    <label>
+                        <input type="radio" name="q3" value="0">
+                        Applied Programming Interface
+                    </label>
+                    <label>
+                        <input type="radio" name="q3" value="0">
+                        Application Process Integration
+                    </label>
+                    <label>
+                        <input type="radio" name="q3" value="0">
+                        Advanced Programming Interface
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>4. Which company developed JavaScript?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q4" value="1">
+                        Netscape
+                    </label>
+                    <label>
+                        <input type="radio" name="q4" value="0">
+                        Microsoft
+                    </label>
+                    <label>
+                        <input type="radio" name="q4" value="0">
+                        Apple
+                    </label>
+                    <label>
+                        <input type="radio" name="q4" value="0">
+                        Oracle
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>5. Which HTML tag is used to define an internal style sheet?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q5" value="1">
+                        &lt;style&gt; tag
+                    </label>
+                    <label>
+                        <input type="radio" name="q5" value="0">
+                        &lt;script&gt; tag
+                    </label>
+                    <label>
+                        <input type="radio" name="q5" value="0">
+                        &lt;css&gt; tag
+                    </label>
+                    <label>
+                        <input type="radio" name="q5" value="0">
+                        &lt;link&gt; tag
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>6. Which is used to add comments in CSS?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q6" value="1">
+                        /* comment */
+                    </label>
+                    <label>
+                        <input type="radio" name="q6" value="0">
+                        // comment
+                    </label>
+                    <label>
+                        <input type="radio" name="q6" value="0">
+                        &lt;!-- comment --&gt;
+                    </label>
+                    <label>
+                        <input type="radio" name="q6" value="0">
+                        # comment
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>7. What is a 'div' tag used for?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q7" value="1">
+                        Container for HTML elements
+                    </label>
+                    <label>
+                        <input type="radio" name="q7" value="0">
+                        To create an image
+                    </label>
+                    <label>
+                        <input type="radio" name="q7" value="0">
+                        To create a hyperlink
+                    </label>
+                    <label>
+                        <input type="radio" name="q7" value="0">
+                        To create a table
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>8. What is React.js?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q8" value="1">
+                        A JavaScript library for building UIs
+                    </label>
+                    <label>
+                        <input type="radio" name="q8" value="0">
+                        A server-side scripting language
+                    </label>
+                    <label>
+                        <input type="radio" name="q8" value="0">
+                        A database management system
+                    </label>
+                    <label>
+                        <input type="radio" name="q8" value="0">
+                        A testing framework
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>9. What does the 'box model' in CSS represent?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q9" value="1">
+                        The layout structure for HTML elements
+                    </label>
+                    <label>
+                        <input type="radio" name="q9" value="0">
+                        A method to create tables in HTML
+                    </label>
+                    <label>
+                        <input type="radio" name="q9" value="0">
+                        A JavaScript framework
+                    </label>
+                    <label>
+                        <input type="radio" name="q9" value="0">
+                        A type of responsive design
+                    </label>
+                </div>
+            </div>
+            <div class="question">
+                <label>10. What is the purpose of the 'alt' attribute in an image tag?</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q10" value="1">
+                        Describes the image when it cannot be displayed
+                    </label>
+                    <label>
+                        <input type="radio" name="q10" value="0">
+                        Changes the image size
+                    </label>
+                    <label>
+                        <input type="radio" name="q10" value="0">
+                        Adds a border to the image
+                    </label>
+                    <label>
+                        <input type="radio" name="q10" value="0">
+                        Controls image transparency
+                    </label>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label for="name">Enter your name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("quiz-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let score = 0;
+            const totalQuestions = 10;
+            const userName = document.getElementById("name").value;
+            if (!userName) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            // Loop through the questions
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer) {
+                    score += parseInt(answer.value);
+                }
+            }
+
+            // Display the result
+            const result = document.getElementById("result");
+            result.innerHTML = `Hello ${userName}, your score is ${score} out of ${totalQuestions}.`;
+
+            // Send the result to the backend to save the score in Excel
+            const timestamp = new Date().toISOString();
+
+            fetch('http://localhost:3000/save-score', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: userName,
+                    score: score,
+                    timestamp: timestamp
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Score saved:", data))
+            .catch(error => console.error("Error saving score:", error));
+        });
+    </script>
+    <script src="server.js"></script>
+</body>
+</html>
