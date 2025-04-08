@@ -338,12 +338,16 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>
         <div id="result" class="result"></div>
+        <button id="download-btn" class="submit-btn" style="background-color: #8e24aa; margin-top: 10px;">
+            Download All Scores
+        </button>
+        
     </div>
 
     <script>
         document.getElementById("quiz-form").addEventListener("submit", function(event) {
             event.preventDefault();
-
+    
             let score = 0;
             const totalQuestions = 10;
             const userName = document.getElementById("name").value;
@@ -351,22 +355,21 @@
                 alert("Please enter your name.");
                 return;
             }
-
-            // Loop through the questions
+    
+            // Calculate score
             for (let i = 1; i <= totalQuestions; i++) {
                 const answer = document.querySelector(`input[name="q${i}"]:checked`);
                 if (answer) {
                     score += parseInt(answer.value);
                 }
             }
-
-            // Display the result
+    
             const result = document.getElementById("result");
             result.innerHTML = `Hello ${userName}, your score is ${score} out of ${totalQuestions}.`;
-
-            // Send the result to the backend to save the score in Excel
+    
             const timestamp = new Date().toISOString();
-
+    
+            // Send score to backend
             fetch('http://localhost:3000/save-score', {
                 method: 'POST',
                 headers: {
@@ -379,10 +382,25 @@
                 })
             })
             .then(response => response.json())
-            .then(data => console.log("Score saved:", data))
-            .catch(error => console.error("Error saving score:", error));
+            .then(data => {
+                console.log("Score saved:", data);
+            })
+            .catch(error => {
+                console.error("Error saving score:", error);
+            });
         });
     </script>
-    <script src="server.js"></script>
+    <script>
+        document.getElementById("download-btn").addEventListener("click", () => {
+            const link = document.createElement("a");
+            link.href = "http://localhost:3000/download-scores";
+            link.download = "scores.txt";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+    
+    <!--<script src="server.js"></script>-->
 </body>
 </html>
