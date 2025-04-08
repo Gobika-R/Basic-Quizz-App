@@ -3,44 +3,37 @@ const bodyParser = require("body-parser");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
-const cors = require("cors"); // To handle cross-origin requests
+const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS to allow requests from other origins
+app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
 
-// Define the path for the Excel file
-const filePath = path.resolve(__dirname, "scores.xlsx");
+const excelPath = path.resolve(__dirname, "scores.xlsx");
+const textFilePath = path.resolve(__dirname, "scores.txt");
 
+// Route to handle score submission
 app.post("/save-score", async (req, res) => {
     const { name, score, timestamp } = req.body;
 
-    // Validate the input
     if (!name || typeof score !== "number" || !timestamp) {
         return res.status(400).send({ error: "Invalid data provided" });
     }
 
     try {
-        let workbook;
-        let worksheet;
-
-        // Check if the file already exists
-        if (fs.existsSync(filePath)) {
-            // Load the existing workbook
+        // Save to Excel
+        let workbook, worksheet;
+        if (fs.existsSync(excelPath)) {
             workbook = new ExcelJS.Workbook();
-            await workbook.xlsx.readFile(filePath);
-
-            // Get the first worksheet
+            await workbook.xlsx.readFile(excelPath);
             worksheet = workbook.getWorksheet(1);
         } else {
-            // Create a new workbook and worksheet
             workbook = new ExcelJS.Workbook();
             worksheet = workbook.addWorksheet("Scores");
-
-            // Define the columns
             worksheet.columns = [
                 { header: "Name", key: "name", width: 25 },
                 { header: "Score", key: "score", width: 10 },
@@ -48,11 +41,12 @@ app.post("/save-score", async (req, res) => {
             ];
         }
 
-        // Add the new row
-        worksheet.addRow({ name, score, timestamp }).commit();
+        worksheet.addRow({ name, score, timestamp });
+        await workbook.xlsx.writeFile(excelPath);
 
-        // Save the workbook back to the file
-        await workbook.xlsx.writeFile(filePath);
+        // Append to text file
+        const entry = `Name: ${name}, Score: ${score}, Timestamp: ${timestamp}\n`;
+        fs.appendFileSync(textFilePath, entry, "utf8");
 
         console.log(`Score saved: Name=${name}, Score=${score}, Timestamp=${timestamp}`);
         res.status(200).send({ message: "Score saved successfully" });
@@ -62,11 +56,16 @@ app.post("/save-score", async (req, res) => {
     }
 });
 
-// Start the server
-const path = require("path");
+// Route to download the scores.txt
+app.get("/download-scores", (req, res) => {
+    if (fs.existsSync(textFilePath)) {
+        res.download(textFilePath, "scores.txt");
+    } else {
+        res.status(404).send("No scores found.");
+    }
+});
 
-app.use(express.static(path.join(__dirname, "public")));
-
+// Home route
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
